@@ -47,7 +47,17 @@ xhr.on('success', function(result) {
 	console.log('xml:', result.xml());
 });
 
-xhr.get('package.json', params={'a': 'b'});
+xhr.get('package.json', {'a': 'b'});
+```
+
+Another `post` demo:
+
+```js
+var xhr = XHR();
+xhr.post('/post_url', {'a': 'b'}, function(r) {
+	r = r.json(); // get the json result.
+	// write your code
+});
 ```
 
 
@@ -55,8 +65,10 @@ xhr.get('package.json', params={'a': 'b'});
 
 ## 1. XHR API
 
+The API of xhr instance.
+
 1. **`xhr.request(method, url, body, onsuccess, onfail)`**: request the url, with the method.
-2. **`xhr.on()`**: bind the request result(ready, error, success, fail), with result instance as it input.
+2. **`xhr.on(event_key, event_func)`**: bind the request result(ready, error, success, fail), with result instance as it input.
 2. **`xhr.get(url, params, onsuccess, onfail)`**: get request.
 3. **`xhr.post(url, params, onsuccess, onfail)`**: post request.
 4. **`xhr.setRequestHeader(header_name, header_value)`**: append a header.
@@ -67,22 +79,26 @@ xhr.get('package.json', params={'a': 'b'});
 9. **`xhr.reset()`**: reset the xhr instance, such url, headers, body, events.
 
 
-## 2. XHR Event
+## 2. XHR Event key
+
+The evnet keys is for API `on`.
 
 1. **`ready`**: when `xhr` is ready.
 2. **`error`**: when `xhr` can not be ready.
 3. **`success`**: when `status_code is 200`.
 4. **`fail`**: when `status_code is not 200`.
 
-## 3. Response API (result)
+## 3. Response API
+
+The api is for request callback function paramter `result`.
 
 1. **`result.text`**: get all response text;
 2. **`result.status_code`**: the server response code;
 3. **`result.status_text`**: the server response code text, e.g. `ok` (status code is `200`).
 4. **`result.response_type`**: response type;
-5. **`result.json`**: get the json object of response text;
-6. **`result.xml`**: get the xml object of response text;
-7. **`result.headers`**: get all the response headers object;
+5. **`result.json()`**: get the json object of response text;
+6. **`result.xml()`**: get the xml object of response text;
+7. **`result.headers()`**: get all the response headers object;
 
 
 # TODO
