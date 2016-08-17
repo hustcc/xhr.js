@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<script type="text/javascript" src="src/xhr.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+		var xhr = XHR(false);
+		xhr.on('success', function(result) {
+			console.log('success');
+			console.log('status_code:', result.status_code);
+			console.log('status_text:', result.status_text);
+			console.log('response_type:', result.response_type);
+
+			console.log('text:', result.text);
+			console.log('headers:', result.headers());
+			console.log('json:', result.json());
+			console.log('xml:', result.xml());
+		});
+		
+		xhr.get('package.json', params={'a': 'b'});
+
+		xhr.reset();
+		
+		xhr.get('package.json', params={'a': 'b'}, function(result) {
+			console.log('success');
+			console.log('status_code:', result.status_code);
+			console.log('status_text:', result.status_text);
+			console.log('response_type:', result.response_type);
+
+			console.log('text:', result.text);
+			console.log('headers:', result.headers());
+			console.log('json:', result.json());
+			console.log('xml:', result.xml());
+		});
+		console.log('is async');
+		</script>
+	</body>
+</html>

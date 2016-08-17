@@ -1,0 +1,42 @@
+{
+  "name": "xhr.js",
+  "officialName": "XHR",
+  "version": "1.0.2",
+  "summary": "xhr.js is a library (<2Kb) to make AJAX/HTTP restful requests from client-side JavaScript with XMLHttpRequest.",
+  "description": "xhr.js is a library(<2Kb) to make AJAX/HTTP restful requests from client-side JavaScript with XMLHttpRequest.",
+  "author": {
+    "name": "hustcc",
+    "url": "http://git.hust.cc/xhr.js"
+  },
+  "license": "MIT",
+  "keywords": [
+    "xhr",
+    "requests",
+    "request",
+    "XMLHttpRequest",
+    "ajax",
+    "http.js",
+    "client-side",
+    "restful"
+  ],
+  "main": "dist/xhr.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hustcc/xhr.js"
+  },
+  "bugs": {
+    "url": "https://github.com/hustcc/xhr.js/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-uglify": "^1.5.3",
+    "jshint": "^2.9.2",
+    "gulp-rename": "^1.2.2"
+  },
+  "scripts": {
+    "test": "jshint dist/xhr.js",
+    "build": "gulp mini && npm run test"
+  },
+  "dependencies": {
+  }
+}
