@@ -1,0 +1,46 @@
+  body {
+    font: medium/1.5 Helvetica, sans-serif;
+    margin: 1em auto;
+    color: #333;
+    max-width: 40em;
+  }
+  a[href] {
+    color: #4078c0;
+  }
+  pre {
+    background: #f7f7f7;
+    padding: 1em 2em;
+  }
+  code {
+    font: 1em Consolas, Menlo, Courier, monospace;
+  }
+  li > code, h2 code, h3 code {
+    padding: 2px 4px 0;
+    background: #f7f7f7;
+    border: 1px solid #f1f1f1;
+    border-radius: 3px;
+  }
+  .keyword {
+    color: #a71d5d;
+  }
+  .name {
+    color: #795da3;
+  }
+  .string {
+    color: green;
+  }
+  .comment {
+    color: gray;
+  }
+  section {
+    padding-left: 20px;
+  }
+  section > h2, section > pre, section > button {
+    margin-left: -20px;
+  }
+  ul {
+    padding-left: 1.2em;
+  }
+  h2:target, h3:target, li:target {
+    background-color: lemonchiffon;
+  }

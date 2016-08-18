@@ -1,38 +1,94 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<script type="text/javascript" src="src/xhr.js"></script>
-	</head>
-	<body>
-		<script type="text/javascript">
-		var xhr = XHR(false);
-		xhr.on('success', function(result) {
-			console.log('success');
-			console.log('status_code:', result.status_code);
-			console.log('status_text:', result.status_text);
-			console.log('response_type:', result.response_type);
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>xhr.js documentation & usage demos</title>
+  <link rel="stylesheet" type="text/css" href="demo/css.css" />
+  <meta name="keywords" content="xhr,requests, request, XMLHttpRequest, ajax, http.js, client-side, restful" />
+  <meta name="description" content="xhr.js is a library (<2Kb) to make AJAX/HTTP restful requests from client-side JavaScript with XMLHttpRequest." />
+  <meta name="subject" content="XMLHttpRequest, ajax, http, restful" />
+  <meta name="summary" content="iReact: Fantastic React Components and Libraries! Makes it easy for you to pick one that’ll work for you. Want to add your own? Fork on GitHub, add your react project to data.js and submit a pull request." />
+  <meta name="topic" content="xhr,requests, request, XMLHttpRequest, ajax, http.js, client-side, restful" />
+  <meta name="abstract" content="xhr.js: AJAX/HTTP restful requests" />
+</head>
+<body>
+  <h1>xhr.js</h1>
+  <p>
+    This documents is for open source project <a href="https://github.com/hustcc/xhr.js">xhr.js</a>.
+  </p>
 
-			console.log('text:', result.text);
-			console.log('headers:', result.headers());
-			console.log('json:', result.json());
-			console.log('xml:', result.xml());
-		});
-		
-		xhr.get('package.json', params={'a': 'b'});
+  <section>
+    <h2 id="install">1. Install xhr.js</h2>
+    <code><span class="keyword">npm</span> <span class="name">install</span> <span class="keyword">xhr.js</span></code>
+    <p>Then import xhr.js</p>
+    <pre><code><span class="keyword">import</span> <span class="name">xhr</span> from "<span class="keyword">xhr.js</span>"</code></pre>
+    <p>or use script tag: </p>
+    <pre><code>&lt;<span class="keyword">script</span> src="<span class="name">dist/xhr.min.js</span>"&gt;&lt;/<span class="keyword">script</span>&gt;</code></pre>
+  </section>
 
-		xhr.reset();
-		
-		xhr.get('package.json', params={'a': 'b'}, function(result) {
-			console.log('success');
-			console.log('status_code:', result.status_code);
-			console.log('status_text:', result.status_text);
-			console.log('response_type:', result.response_type);
+  <section>
+    <h2 id="get_post">2. Get / Post request</h2>
+    <p>
+      Send a HTTP <span class="keyword">get</span> or <span class="keyword">post</span> request. 
+    </p>
+    <p>
+      Synopsis:
+      <code><span class="keyword">new</span> <span class="name">XHR</span>().get(<span class="name">url</span>, <span class="name">params</span>, <span class="name">onsuccess</span>, <span class="name">onfail</span>)</code>
+    </p>
+    <pre><code>var xhr = XHR();
+xhr.<span class="keyword">get</span>('package.json', {'a': 'b'}, function(r) {
+  r = r.json(); // the json result.
+  alert(r.name + '\n' + r.summary);
+});</code></pre>
+    <button onclick="do_get_psot_demo()">Send The Get / Post request.</button>
+  </section>
 
-			console.log('text:', result.text);
-			console.log('headers:', result.headers());
-			console.log('json:', result.json());
-			console.log('xml:', result.xml());
-		});
-		console.log('is async');
-		</script>
-	</body>
+  <section>
+    <h2 id="method">3. on Event</h2>
+    <p>
+      Bind events with API <span class="keyword">on</span> to do something when event fired. The event include: 
+      <span class="name">ready</span>、<span class="name">success</span>、<span class="name">fail</span>、<span class="name">error</span>.
+    </p>
+    <p>
+      Synopsis:
+      <code><span class="keyword">new</span> <span class="name">XHR</span>().on(<span class="name">event</span>, <span class="name">callback</span>)</code>
+    </p>
+    <pre><code>var xhr = XHR();
+xhr.<span class="keyword">on</span>('success', function(r) {
+  r = r.json(); // the json result.
+  alert(r.name + ' code is here: ' + r.repository.url);
+});
+xhr.request('GET', 'package.json', null);</code></pre>
+    <button onclick="do_on_function()">Send The request with on event.</button>
+  </section>
+
+  <section>
+    <h2 id="sync">4. Sync request</h2>
+    <p>
+      Send a sync request.
+    </p>
+    <p>
+      Synopsis:
+      <code><span class="keyword">new</span> <span class="name">XHR</span>(<span class="name">async</span>)</code>
+    </p>
+    <pre><code>var xhr = XHR(<span class="keyword">false</span>);
+xhr.<span class="keyword">request</span>('DELETE', 'package.json', null, function(r) {
+  r = r.json();
+  alert(r.name + ' code is here: ' + r.repository.url);
+}, function(r) {
+  alert('Request error: \n' + r.status_code + '\n' + r.status_text);
+});</code></pre>
+    <button onclick="do_sync_request()">Send The sync request.</button>
+  </section>
+
+  <section>
+    <br />
+    <p>
+      The source of <span class="name">xhr.js</span> <a href="http://github.com/hustcc/xhr.js">here</a>.
+      Detail <span class="name">documents</span> <a href="http://github.com/hustcc/xhr.js#readme">here</a>.
+    </p>
+  </section>
+  <script type="text/javascript" src="dist/xhr.min.js"></script>
+  <script type="text/javascript" src="demo/demo.js"></script>
+</body>
 </html>
