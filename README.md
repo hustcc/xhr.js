@@ -67,9 +67,9 @@ var fd = new FormData(document.querySelector('#submit_form'));
 
 var xhr = new XHR();
 xhr.post('/submit/new', fd, function(r) {
-// request success
-r = r.json();
-console.log(r);
+    // request success
+    r = r.json();
+    console.log(r);
 });
 ```
 
