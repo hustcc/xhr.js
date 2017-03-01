@@ -1,103 +1,68 @@
-/* jshint expr: true */ 
+/**
+ * Copyright (c) 2016 hustcc
+ * License: MIT
+ * Version: v1.0.2
+ * https://github.com/hustcc/xhr.js
+**/
+/* jshint expr: true */
 !function (root, factory) {
-  if (typeof module === 'object' && module.exports)
-    module.exports = factory(root);
-  else
-    root.XHR = factory(root);
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory(root); // nodejs support
+    module.exports['default'] = module.exports; // es6 support
+  }
+  else root.XHR = factory(root);
 }(typeof window !== 'undefined' ? window : this, function () {
 
   var XHR = function(async) {
-    /* the request result object */
-    var  _Result = function(xhrObj) {
-      var text = xhrObj.responseText,
-        status_code = xhrObj.status,
-        status_text = xhrObj.statusText,
-        response_type = xhrObj.responseType,
-        header_text = xhrObj.getAllResponseHeaders(),
-        json = function() {
-          try {
-            return JSON.parse(text);
-          } catch(e) {
-            return null;
-          }
-        },
-        __xml = xhrObj.responseXML,
-        xml = function() {
-          return __xml;
-        },
-        __headers = null, // cached the header data, only calculate once.
-        headers = function() {
-          if (__headers === null) {
-            __headers = {};
-
-            if (header_text) {
-              var tmp_array = header_text.split('\n');
-              var tmp_line = '';
-              for (var i = 0; i < tmp_array.length; i ++) {
-                tmp_line = tmp_array[i].split(': ');
-                if (tmp_line && tmp_line.length === 2 && tmp_line[0]) {
-                  __headers[tmp_line[0]] = tmp_line[1];
-                }
-              }
-            }
-          }
-          return __headers;
-        };
-      // the return object
+    var Result = function(xhrObj) {
+      var headers = {}, header;
+      // code from https://github.com/developit/unfetch/blob/master/src/index.js
+      xhrObj.getAllResponseHeaders().replace(/^(.*?):\s*([\s\S]*?)$/gm, function(m, key, value) {
+        header = headers[key];
+        headers[key] = header ? header + ',' + value : value;
+      });
       return {
-        text: text,
-        status_code: status_code,
-        status_text: status_text,
-        response_type: response_type,
-        header_text: header_text,
-        json: json,
-        xml: xml,
-        headers: headers
+        status: xhrObj.status,
+        statusText: xhrObj.statusText,
+        url: xhrObj.responseURL,
+        text: xhrObj.responseText,
+        responseType: xhrObj.responseType,
+        headers: headers,
+        ok: function() { return (xhrObj.status/200|0) == 1; },    // 200-399
+        json: function() { return JSON.parse(xhrObj.responseText); },
+        xml: function() { return xhrObj.responseXML; },
+        blob: function() { return new Blob([xhrObj.response]); }
       };
     },
 
-    __blank_func = function() {},
-
-    __init_event = function() {
-      return {
-        'ready': __blank_func, // when connected to server 
-        'error': __blank_func, // when 
-        'success': __blank_func, // when server status code == 200
-        'fail': __blank_func // when server status code != 200
-      };
-    }, 
     _method = '',
     _url = '',
     _headers = {},
     _body = '',
-    _async = async === false ? false : true,
+    _async = async !== false,
 
-    _events = __init_event(),
+    _events = {},
 
     _xhr = new XMLHttpRequest(),
 
     // binding event
     on = function(event, callback) {
-      if (event === 'ready' || event === 'error' || event === 'success' || event === 'fail') {
-        if (typeof callback === 'function') {
-          _events[event] = callback;
-        }
-      }
+      if (event && callback) _events[event] = callback;
     },
-
+    __callback_func = function(t) {
+      return _events[t] ? _events[t]: function() {};
+    },
     // onreadystatechange callback function 
     __on_request_callback = function() {
-      var result = _Result(_xhr);
       if (_xhr.readyState === 4) {
+        var result = Result(_xhr);
         // ready
-        _events.ready(result, _this);
+        __callback_func('ready')(result, _this);
         // success
-        if (_xhr.status === 200) _events.success(result, _this);
+        if (_xhr.status === 200) __callback_func('success')(result, _this);
         // fail
-        else _events.fail(result, _this);
+        else __callback_func('fail')(result, _this);
       }
-      // error
-      else _events.error(result, _this);
     },
 
     // set req header, key = value
@@ -155,10 +120,8 @@
     // private method, use XMLHttpRequest to send a request.
     __request = function() {
       _xhr.open(_method, _url, _async);
-      // 设置header内容
-      for (var key in _headers)
-        _xhr.setRequestHeader(key, _headers[key]);
-
+      // 设置 header 内容
+      for (var key in _headers) _xhr.setRequestHeader(key, _headers[key]);
       _xhr.onreadystatechange = __on_request_callback;
       _xhr.send(_body);
       return _this;
@@ -166,8 +129,7 @@
 
     // abort the XMLHttpRequest request.
     abort = function() {
-      if (_xhr)
-        _xhr.abort();
+      if (_xhr) _xhr.abort();
     },
 
     // get the request url, if method is GET, will add the params at the end of url.
@@ -186,7 +148,7 @@
       _body = '';
       _method = '';
       _headers = {};
-      _events = __init_event();
+      _events = {};
     },
 
     // the return object.
@@ -205,6 +167,5 @@
     };
     return _this;
   };
-
   return XHR;
 });

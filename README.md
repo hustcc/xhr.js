@@ -37,14 +37,17 @@ or link with `script` in html files:
 ```js
 var xhr = XHR(async); // default is async. you can set sync use  XHR(false)
 xhr.on('success', function(result) {
-	console.log('status_code:', result.status_code);
-	console.log('status_text:', result.status_text);
-	console.log('response_type:', result.response_type);
-
+	console.log('status:', result.status);
+	console.log('statusText:', result.statusText);
+	console.log('url:', result.url);
+	console.log('responseType:', result.responseType);
 	console.log('text:', result.text);
-	console.log('headers:', result.headers());
+	console.log('headers:', result.headers);
+
+	console.log('ok:', result.ok()); // get the json result.
 	console.log('json:', result.json()); // get the json result.
 	console.log('xml:', result.xml());
+	console.log('blob:', result.blob());
 });
 
 xhr.get('package.json', {'a': 'b'});
@@ -84,27 +87,27 @@ The API of xhr instance.
 The evnet keys is for API `on`.
 
 1. **`ready`**: when `xhr` is ready.
-2. **`error`**: when `xhr` can not be ready.
-3. **`success`**: when `status_code is 200`.
-4. **`fail`**: when `status_code is not 200`.
+2. **`success`**: when `status_code is 200`.
+3. **`fail`**: when `status_code is not 200`.
 
 ## 3. Response API
 
 The api is for request callback function paramter `result`.
 
 1. **`result.text`**: get all response text;
-2. **`result.status_code`**: the server response code;
-3. **`result.status_text`**: the server response code text, e.g. `ok` (status code is `200`).
-4. **`result.response_type`**: response type;
-5. **`result.json()`**: get the json object of response text;
-6. **`result.xml()`**: get the xml object of response text;
-7. **`result.headers()`**: get all the response headers object;
+2. **`result.status`**: the server response code;
+3. **`result.statusText`**: the server response code text, e.g. `ok` (status code is `200`).
+4. **`result.responseType`**: response type;
+5. **`result.headers`**: get all the response headers object;
+6. **`result.ok()`**: is request ok;
+7. **`result.json()`**: get the json object of response text;
+8. **`result.xml()`**: get the xml object of response text;
+9. **`result.blob()`**: get the blob object of response text;
 
 
 # TODO
 
  - request auth
- - delete, put
  - a http test chrome plugin, like postman.
 
 

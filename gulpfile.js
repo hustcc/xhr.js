@@ -1,10 +1,11 @@
 const gulp = require('gulp');
 const uglify = require('gulp-uglify');
 const rename = require("gulp-rename");
+const injectVersion = require('gulp-inject-version');
 
 gulp.task('mini', () => (
   gulp.src('src/xhr.js')
-  .pipe(rename("xhr.js"))
+  .pipe(injectVersion())
   .pipe(gulp.dest('dist/'))
   .pipe(uglify())    //uglify
   .pipe(rename("xhr.min.js"))
