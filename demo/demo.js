@@ -24,6 +24,6 @@ function do_sync_request() {
     console.log(r);
     alert(r.name + ' code is here: ' + r.repository.url);
   }, function(r) {
-    alert('Request error: \n' + r.status_code + '\n' + r.status_text);
+    alert('Request error: \n' + r.status + '\n' + r.statusText);
   });
 }
