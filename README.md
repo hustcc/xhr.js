@@ -1,6 +1,6 @@
 # xhr.js
 
-> xhr.js is a library(< 2Kb) to make AJAX/HTTP restful requests with **XMLHttpRequest**. It has similar API with Python-requests.
+> xhr.js is a library(< 2Kb) to make AJAX/HTTP restful requests with **XMLHttpRequest**. It has similar API with `Python-requests`.
 
 [![Build Status](https://travis-ci.org/hustcc/xhr.js.svg?branch=master)](https://travis-ci.org/hustcc/xhr.js) [![npm](https://img.shields.io/npm/v/xhr.js.svg?style=flat-square)](https://www.npmjs.com/package/xhr.js) [![npm](https://img.shields.io/npm/dt/xhr.js.svg?style=flat-square)](https://www.npmjs.com/package/xhr.js) [![npm](https://img.shields.io/npm/l/xhr.js.svg?style=flat-square)](https://www.npmjs.com/package/xhr.js)
 
@@ -60,6 +60,19 @@ var xhr = XHR();
 xhr.post('/post_url', {'a': 'b'}, function(r) {
 	r = r.json(); // get the json result.
 	// write your code
+});
+```
+
+**Upload file** with `FormData` object: 
+
+```js
+var fd = new FormData(document.querySelector('#submit_form'));
+
+var xhr = new XHR();
+xhr.post('/submit/new', fd, function(r) {
+    // request success
+    r = r.json();
+    console.log(r);
 });
 ```
 

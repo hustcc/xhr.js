@@ -1,7 +1,7 @@
 {
   "name": "xhr.js",
   "officialName": "XHR",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "summary": "xhr.js is a library (<2Kb) to make AJAX/HTTP restful requests from client-side JavaScript with XMLHttpRequest.",
   "description": "xhr.js is a library(<2Kb) to make AJAX/HTTP restful requests from client-side JavaScript with XMLHttpRequest.",
   "author": {
